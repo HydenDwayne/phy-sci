@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Physics Calculator</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <meta name="viewport" content="width=device-width, initial-scale=.7">
+
+
+    <style>
+        body {
+            background: #232526;  /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #414345, #232526);  /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #414345, #232526); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        }
+
+
+        .container {
+            max-width: 50%;
+            height: 100%;
+            padding-left: 15px;
+            padding-right: 15px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media (max-width: 500px) {
+            label {
+                display: flex;
+                margin-bottom: 10px;
+            }
+            
+            input[type="number"], input[type="text"], select {
+                width: 100%;
+                margin-bottom: 100px;
+            }
+        }
+        
+        .input-group {
+            display: flex;
+            align-items: center;
+        }
+        
+        .input-group label {
+            flex: 1;
+            margin-right: 10px;
+        }
+        
+        .input-group input,
+        .input-group select {
+            flex: 2;
+            width: 100px; /* Set a fixed width for the input and select boxes */
+        }
+
+        .w3-button:hover {
+            color:#000!important;
+            background-color:#fdf5e6!important;
+        }
+
+        .inputs {
+            background-color:#fdf5e6!important;
+        }
+
+        .w3-select {
+            margin-left: 15px;
+            margin-bottom: 5px;
+        }
+
+        .hd-btn {
+            margin-top: 5px;
+        }
+
+    </style>
+    <br>
+</head>
+
+<body onload="toggleInputs(); toggleMotionInputs()">
+    <div class="container">
+        <h1 style="color: #fcfcfc;">Speed Calculator</h1>
+        <form id="calculator">
+            <label for="variable" style="color: #fcfcfc;">Solve for:</label>
+            <select id="variable" onchange="toggleInputs()" class="w3-button w3-sand btn-border link border">
+                <option value="speed">Speed</option>
+                <option value="distance">Distance</option>
+                <option value="time">Time</option>
+            </select>
+
+            <div class="input-group" id="speedInputGroup">
+                <label for="speed" style="color: #fcfcfc;">Speed:</label>
+                <input type="number" id="speed" step="any" class="w3-sand">
+                <select id="speedUnit" onchange="updateSpeedUnit()" class="w3-select w3-sand">
+                    <option value="m/s">m/s</option>
+                    <option value="km/h">km/h</option>
+                    <option value="mph">mph</option>
+                </select>
+            </div>
+
+            <div class="input-group" id="distanceInputGroup">
+                <label for="distance" style="color: #fcfcfc;">Distance:</label>
+                <input type="number" id="distance" step="any" class="w3-sand">
+                <select id="distanceUnit" onchange="updateDistanceUnit()" class="w3-select w3-sand">
+                    <option value="m">meter</option>
+                    <option value="km">kilometer</option>
+                    <option value="mi">miles</option>
+                </select>
+            </div>
+
+            <div class="input-group" id="timeInputGroup">
+                <label for="time" style="color: #fcfcfc;">Time:</label>
+                <input type="number" id="time" step="any" class="w3-sand">
+                <select id="timeUnit" onchange="updateTimeUnit()" class="w3-select w3-sand">
+                    <option value="s">second</option>
+                    <option value="m">minute</option>
+                    <option value="hr">hour</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="result" style="color: #fcfcfc;">Result:</label>
+                <input type="text" id="result" readonly class="w3-sand">
+
+                <input type="submit" value="Calculate" class="w3-button w3-sand w3-select" style="font-weight: 1000;">
+            </div>
+
+            
+        </form>
+        <br><br><br>
+
+        <h1 style="color: #fcfcfc;">Acceleration Calculator</h1>
+        <form id="motionCalculator">
+            <label for="motionVariable" style="color: #fcfcfc;">Solve for:</label>
+            <select id="motionVariable" onchange="toggleMotionInputs()" class="w3-button w3-sand btn-border link border">
+                <option value="finalVelocity">Final Velocity</option>
+                <option value="acceleration">Acceleration</option>
+                <option value="time">Time</option>
+                <option value="distance">Distance</option>
+            </select>
+
+            <div class="input-group" id="initialVelocityInputGroup">
+                <label for="initialVelocity" style="color: #fcfcfc;">Initial Velocity:</label>
+                <input type="number" id="initialVelocity" step="any" class="w3-sand">
+                <select id="initialVelocityUnit" class="w3-select w3-sand">
+                    <option value="m/s">m/s</option>
+                    <option value="km/h">km/h</option>
+                    <option value="mph">mph</option>
+                </select>
+            </div>
+
+            <div class="input-group" id="finalVelocityInputGroup">
+                <label for="finalVelocity" style="color: #fcfcfc;">Final Velocity:</label>
+                <input type="number" id="finalVelocity" step="any" class="w3-sand">
+                <select id="finalVelocityUnit" class="w3-select w3-sand">
+                    <option value="m/s">m/s</option>
+                    <option value="km/h">km/h</option>
+                    <option value="mph">mph</option>
+                </select>
+            </div>
+
+            <div class="input-group" id="accelerationInputGroup">
+                <label for="acceleration" style="color: #fcfcfc;">Acceleration:</label>
+                <input type="number" id="acceleration" step="any" class="w3-sand">
+                <select id="accelerationUnit" class="w3-select w3-sand">
+                    <option value="m/s^2">m/s^2</option>
+                    <option value="km/h^2">km/h^2</option>
+                    <option value="mph^2">mph^2</option>
+                </select>
+            </div>
+
+            <div class="input-group" id="timeMotionInputGroup">
+                <label for="timeMotion" style="color: #fcfcfc;">Time:</label>
+                <input type="number" id="timeMotion" step="any" class="w3-sand">
+                <select id="timeMotionUnit" class="w3-select w3-sand">
+                    <option value="s">second</option>
+                    <option value="m">minute</option>
+                    <option value="hr">hour</option>
+                </select>
+            </div>
+
+            <div class="input-group" id="distanceMotionInputGroup">
+                <label for="distanceMotion" style="color: #fcfcfc;">Distance:</label>
+                <input type="number" id="distanceMotion" step="any" class="w3-sand">
+                <select id="distanceMotionUnit" class="w3-select w3-sand">
+                    <option value="m">meter</option>
+                    <option value="km">kilometer</option>
+                    <option value="mi">miles</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="resultMotion" style="color: #fcfcfc;">Result:</label>
+                <input type="text" id="resultMotion" readonly class="w3-sand">
+
+                <input type="submit" value="Calculate" class="w3-button w3-sand w3-select" style="font-weight: 1000;">
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        function toggleInputs() {
+            var variable = document.getElementById('variable').value;
+            
+            var speedInputGroup = document.getElementById('speedInputGroup');
+            var distanceInputGroup = document.getElementById('distanceInputGroup');
+            var timeInputGroup = document.getElementById('timeInputGroup');
+            
+            speedInputGroup.style.display = 'none';
+            distanceInputGroup.style.display = 'none';
+            timeInputGroup.style.display = 'none';
+            
+            if (variable === 'speed') {
+                distanceInputGroup.style.display = 'flex';
+                timeInputGroup.style.display = 'flex';
+            } else if (variable === 'distance') {
+                speedInputGroup.style.display = 'flex';
+                timeInputGroup.style.display = 'flex';
+            } else if (variable === 'time') {
+                speedInputGroup.style.display = 'flex';
+                distanceInputGroup.style.display = 'flex';
+            }
+        }
+        
+
+        function toggleMotionInputs() {
+            var motionVariable = document.getElementById("motionVariable").value;
+
+            var initialVelocityInputGroup = document.getElementById("initialVelocityInputGroup");
+            var finalVelocityInputGroup = document.getElementById("finalVelocityInputGroup");
+            var accelerationInputGroup = document.getElementById("accelerationInputGroup");
+            var timeMotionInputGroup = document.getElementById("timeMotionInputGroup");
+            var distanceMotionInputGroup = document.getElementById("distanceMotionInputGroup");
+
+            initialVelocityInputGroup.style.display = 'none'
+            finalVelocityInputGroup.style.display = 'none'
+            accelerationInputGroup.style.display = 'none'
+            timeMotionInputGroup.style.display = 'none'
+            distanceMotionInputGroup.style.display = 'none'
+
+              if (motionVariable === "finalVelocity") {
+                initialVelocityInputGroup.style.display = 'flex';
+                accelerationInputGroup.style.display = 'flex';
+                timeMotionInputGroup.style.display = 'flex';
+            } else if (motionVariable === "acceleration") {
+                initialVelocityInputGroup.style.display = 'flex';
+                finalVelocityInputGroup.style.display = 'flex';
+                timeMotionInputGroup.style.display = 'flex';
+            } else if (motionVariable === "time") {
+                initialVelocityInputGroup.style.display = 'flex';
+                finalVelocityInputGroup.style.display = 'flex';
+                accelerationInputGroup.style.display = 'flex';
+            } else if (motionVariable === "distance") {
+                initialVelocityInputGroup.style.display = 'flex';
+                finalVelocityInputGroup.style.display = 'flex';
+                accelerationInputGroup.style.display = 'flex';
+                timeMotionInputGroup.style.display = 'flex';
+            }
+        }
+        
+
+        function updateSpeedUnit() {
+            const speedUnit = document.getElementById("speedUnit").value;
+            const speed = document.getElementById("speed").value;
+            const convertedSpeed = convertSpeed(speed, speedUnit, "m/s");
+            document.getElementById("speed").value = convertedSpeed.toFixed(2);
+        }
+
+        function updateDistanceUnit() {
+            const distanceUnit = document.getElementById("distanceUnit").value;
+            const distance = document.getElementById("distance").value;
+            const convertedDistance = convertDistance(distance, distanceUnit, "m");
+            document.getElementById("distance").value = convertedDistance.toFixed(2);
+        }
+
+        function updateTimeUnit() {
+            const timeUnit = document.getElementById("timeUnit").value;
+            const time = document.getElementById("time").value;
+            const convertedTime = convertTime(time, timeUnit, "s");
+            document.getElementById("time").value = convertedTime.toFixed(2);
+        }
+
+        function convertSpeed(speed, fromUnit, toUnit) {
+            const speedMap = {
+                "m/s": 1,
+                "km/h": 3.6,
+                "mph": 2.23694
+            };
+
+            const speedInMs = speed / speedMap[fromUnit];
+            return speedInMs * speedMap[toUnit];
+        }
+
+        function convertDistance(distance, fromUnit, toUnit) {
+            const distanceMap = {
+                "m": 1,
+                "km": 1000,
+                "mi": 1609.34
+            };
+
+            const distanceInMeters = distance * distanceMap[fromUnit];
+            return distanceInMeters / distanceMap[toUnit];
+        }
+
+        function convertTime(time, fromUnit, toUnit) {
+            const timeMap = {
+                "s": 1,
+                "m": 60,
+                "hr": 3600
+            };
+
+            const timeInSeconds = time * timeMap[fromUnit];
+            return timeInSeconds / timeMap[toUnit];
+        }
+
+        document.getElementById("calculator").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const variable = document.getElementById("variable").value;
+            const speed = parseFloat(document.getElementById("speed").value);
+            const distance = parseFloat(document.getElementById("distance").value);
+            const time = parseFloat(document.getElementById("time").value);
+            let result;
+
+            if (variable === "speed") {
+                result = distance / time;
+            } else if (variable === "distance") {
+                result = speed * time;
+            } else if (variable === "time") {
+                result = distance / speed;
+            }
+
+            document.getElementById("result").value = result.toFixed(2);
+        });
+
+        document.getElementById("motionCalculator").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const motionVariable = document.getElementById("motionVariable").value;
+            const initialVelocity = parseFloat(document.getElementById("initialVelocity").value);
+            const finalVelocity = parseFloat(document.getElementById("finalVelocity").value);
+            const acceleration = parseFloat(document.getElementById("acceleration").value);
+            const timeMotion = parseFloat(document.getElementById("timeMotion").value);
+            const distanceMotion = parseFloat(document.getElementById("distanceMotion").value);
+            let resultMotion;
+
+             if (motionVariable === "finalVelocity") {
+                resultMotion = initialVelocity + (acceleration * timeMotion);
+            } else if (motionVariable === "acceleration") {
+                resultMotion = (finalVelocity - initialVelocity) / timeMotion;
+            } else if (motionVariable === "time") {
+                resultMotion = (finalVelocity - initialVelocity) / acceleration;
+            } else if (motionVariable === "distance") {
+                const initialTime = (initialVelocity * timeMotion);
+                const timetime = (timeMotion * timeMotion);
+                const acceleTime = (acceleration * timetime);
+                const initial05 = initialTime + 0.5;
+                const finalconst = (initial05 * acceleTime)
+                resultMotion = finalconst
+            }
+
+            document.getElementById("resultMotion").value = resultMotion.toFixed(2);
+        });
+    </script>
+
+</body>
+
+
+</html>
